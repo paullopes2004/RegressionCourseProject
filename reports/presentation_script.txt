@@ -1,0 +1,132 @@
+Slide 1 – Title: “S&P 500 Stock Regression Project”
+What to say:
+- “Hi everyone, my name is Paul Lopes, and this is my Regression Methods project.”
+- “I analyzed S&P 500 stock data using multiple linear regression to see which simple stock characteristics can explain differences in 1‑year returns.”
+- “All of the analysis was done in R, and the full code and data pipeline are in my GitHub repo.”
+Notes / meaning:
+- S&P 500 = 500 large U.S. companies; familiar dataset.
+- Regression = explain how a response (1-year return) depends on predictors.
+- Mention reproducibility (R + GitHub).
+
+Slide 2 – Abstract (What did I do?)
+What to say:
+- “Goal: explain cross-sectional variation in 1-year S&P 500 returns using technical indicators.”
+- “Dataset: Cam Nugent’s Kaggle daily prices (2013–2018) covering 500+ tickers.”
+- “Approach: feature engineering + multiple linear regression in R with diagnostics.”
+- “Key result: Model explains 53% of variance; momentum and volatility dominate.”
+Notes / meaning:
+- Cross-sectional = compare many stocks at once.
+- Predictors = inputs; response = 1-year log return.
+- R² ≈ 0.53 means half of return differences captured.
+
+Slide 3 – Introduction (What is the problem?)
+What to say:
+- “Prompt asked for a regression analysis with a scientific-paper structure.”
+- “Research question: Which price-based characteristics predict annual returns?”
+- “Motivation: provide simple screening rules using only public price data.”
+Notes / meaning:
+- Tie back to project requirements.
+- Momentum = recent up/down trends; volatility = riskiness.
+
+Slide 4 – Materials & Methods (1/2)
+What to say:
+- “Data: 619k daily rows (OHLCV) from Cam Nugent’s Kaggle dataset.”
+- “Variables include open/high/low/close, volume, ticker, and date.”
+- “Tools: R with tidyverse, lubridate, broom; scripted in sp500_regression.R.”
+Notes / meaning:
+- OHLCV stands for Open, High, Low, Close, Volume.
+- tidyverse = data manipulation suite; lubridate handles dates; broom formats models.
+
+Slide 5 – Materials & Methods (2/2)
+What to say:
+- “Response: log(price_2018-01-02 / price_2017-01-03).”
+- “Predictors use only 2017 data, so the setup is forward-looking.”
+- “Log returns treat gains and losses symmetrically and simplify math.”
+Notes / meaning:
+- Avoid look-ahead bias by not using future info.
+- Log return example: log(1.2) ≈ 0.182.
+
+Slide 6 – Feature Engineering (Predictors)
+What to say:
+- “Volatility: annualized standard deviation of 2017 daily log returns.”
+- “Average volume: mean daily volume (millions of shares).”
+- “Momentum 90: log return over first 90 trading days of 2017.”
+- “Trend MA30: relative difference between initial price and 30-day moving average.”
+Notes / meaning:
+- Annualizing volatility multiplies daily SD by sqrt(252).
+- Moving average smooths short-term noise.
+
+Slide 7 – Feature Engineering Workflow
+What to say:
+- “Pipeline: raw CSV → clean daily data → compute predictors per ticker → final dataset (503 rows).”
+- “Each row now represents one company with engineered features.”
+Notes / meaning:
+- Feature engineering = turning raw data into model-ready summaries.
+
+Slide 8 – Results: Descriptive Statistics
+What to say:
+- “Mean 1-year log return ≈ 0.187 (~20% simple return).”
+- “Median volatility ≈ 0.25; volume is tens of millions of shares.”
+- “Momentum interquartile range spans roughly -4% to +12%.”
+Notes / meaning:
+- IQR = 75th percentile minus 25th percentile; measures spread.
+
+Slide 9 – Results: Model Fit
+What to say:
+- “R² = 0.529, adjusted R² = 0.525.”
+- “Residual standard error = 0.158 log-return units.”
+- “F-statistic ≈ 140 with tiny p-value → model as a whole is significant.”
+Notes / meaning:
+- R² = proportion of variance explained.
+- Residual SE = typical prediction error.
+
+Slide 10 – Results: Coefficients
+What to say:
+- “Momentum coefficient ≈ 1.05 (p<1e-38): stronger early momentum → higher annual returns.”
+- “Volatility coefficient ≈ -0.47 (p≈2e-7): high volatility stocks underperformed.”
+- “Volume and MA trend not significant once other predictors included.”
+Notes / meaning:
+- Interpretation: holding others constant, a 0.1 increase in momentum raises expected log return by about 0.105.
+- p-values >0.05 mean effect not clearly different from zero.
+
+Slide 11 – Diagnostic: Residuals vs Fitted
+What to say:
+- “Residuals scatter symmetrically around zero without obvious funnel shape.”
+- “Supports linearity and constant-variance assumptions.”
+Notes / meaning:
+- Residual = actual minus predicted.
+- Looking for random cloud; patterns indicate model issues.
+
+Slide 12 – Diagnostic: Normal Q-Q Plot
+What to say:
+- “Residual quantiles line up with the theoretical normal line except slight tail deviations.”
+- “Normality assumption is acceptable for inference.”
+Notes / meaning:
+- Q-Q plot tests whether residuals follow normal distribution.
+
+Slide 13 – Discussion (What does it mean?)
+What to say:
+- “Momentum dominates, consistent with Jegadeesh & Titman’s findings.”
+- “Negative volatility coefficient suggests investors preferred stability in 2017.”
+- “Volume and MA trend add minimal signal beyond momentum.”
+Notes / meaning:
+- Connect to finance literature and intuition.
+
+Slide 14 – Limitations & Future Work
+What to say:
+- “Single-year horizon; need multi-year validation.”
+- “No sector fixed effects or macro variables.”
+- “Only linear model—future work could use LASSO or tree ensembles.”
+- “Add fundamentals like valuation metrics for richer models.”
+Notes / meaning:
+- Fixed effects = dummy variables for sectors.
+- LASSO = penalized regression for feature selection.
+
+Slide 15 – Acknowledgments / References / Access
+What to say:
+- “Thanks to Cam Nugent (dataset), instructor, and ChatGPT (cited).”
+- “Repository: https://github.com/paullopes2004/RegressionCourseProject.”
+- “Questions welcome!”
+Notes / meaning:
+- Mention collaborator abarvalia369 if applicable.
+- Ensure citation requirement satisfied.
