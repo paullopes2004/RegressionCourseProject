@@ -135,9 +135,17 @@ The **volatility** coefficient of -0.468 was negative and highly significant. Th
 
 ### Diagnostics
 
-The **residuals vs. fitted plot** (`figures/residuals_vs_fitted.png`) shows that our residuals are scattered pretty evenly around zero without any obvious patterns. There's no strong funnel shape (which would indicate heteroskedasticity) and no obvious curves (which would suggest we need nonlinear terms). The points are a bit more spread out at the extremes, but that's pretty normal.
+We created two diagnostic plots to check our model assumptions. The **residuals vs. fitted plot** (Figure 1) shows that our residuals are scattered pretty evenly around zero without any obvious patterns. There's no strong funnel shape (which would indicate heteroskedasticity) and no obvious curves (which would suggest we need nonlinear terms). The points are a bit more spread out at the extremes, but that's pretty normal.
 
-The **Q-Q plot** (`figures/qq_plot.png`) shows that our residuals are mostly normally distributed, though there are some deviations in the tails. The middle portion follows the line pretty closely, which is what matters most for our hypothesis tests. The tail deviations suggest we might have some outliers, but nothing too extreme. Overall, the diagnostic plots support our use of OLS regression.
+![Residuals vs Fitted Values](figures/residuals_vs_fitted.png)
+*Figure 1: Residuals vs. Fitted Values. This plot checks for heteroskedasticity and nonlinearity. The random scatter around zero suggests our model assumptions are reasonable.*
+
+The **Q-Q plot** (Figure 2) shows that our residuals are mostly normally distributed, though there are some deviations in the tails. The middle portion follows the line pretty closely, which is what matters most for our hypothesis tests. The tail deviations suggest we might have some outliers, but nothing too extreme.
+
+![Normal Q-Q Plot](figures/qq_plot.png)
+*Figure 2: Normal Q-Q Plot. This plot checks if residuals are normally distributed. The points mostly follow the line, supporting our use of OLS regression.*
+
+Overall, the diagnostic plots support our use of OLS regression.
 
 ## Discussion
 

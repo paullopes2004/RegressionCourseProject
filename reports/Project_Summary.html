@@ -149,6 +149,14 @@
             color: #551A8B;
         }
         
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em auto;
+            page-break-inside: avoid;
+        }
+        
         /* Fix for markdown tables */
         table thead {
             display: table-header-group;
@@ -285,8 +293,13 @@
 <p><strong>Momentum</strong> was by far the strongest predictor with a coefficient of 1.047 and a p-value essentially zero. This means that if a stock's 90-day momentum increases by 0.1 (a 10% log return), we'd expect the full-year return to increase by about 0.105. The coefficient being close to 1 is interesting - it suggests that early momentum doesn't just predict returns, it almost directly translates to full-year performance. This is the momentum effect that's been documented in finance literature.</p>
 <p><strong>Trend MA30</strong> had a positive coefficient (0.233) but wasn't significant (p = 0.231). Once we control for momentum, the short-term moving average trend doesn't add much. This makes sense because momentum and trend are probably capturing similar information.</p>
 <h3>Diagnostics</h3>
-<p>The <strong>residuals vs. fitted plot</strong> (<code>figures/residuals_vs_fitted.png</code>) shows that our residuals are scattered pretty evenly around zero without any obvious patterns. There's no strong funnel shape (which would indicate heteroskedasticity) and no obvious curves (which would suggest we need nonlinear terms). The points are a bit more spread out at the extremes, but that's pretty normal.</p>
-<p>The <strong>Q-Q plot</strong> (<code>figures/qq_plot.png</code>) shows that our residuals are mostly normally distributed, though there are some deviations in the tails. The middle portion follows the line pretty closely, which is what matters most for our hypothesis tests. The tail deviations suggest we might have some outliers, but nothing too extreme. Overall, the diagnostic plots support our use of OLS regression.</p>
+<p>We created two diagnostic plots to check our model assumptions. The <strong>residuals vs. fitted plot</strong> (Figure 1) shows that our residuals are scattered pretty evenly around zero without any obvious patterns. There's no strong funnel shape (which would indicate heteroskedasticity) and no obvious curves (which would suggest we need nonlinear terms). The points are a bit more spread out at the extremes, but that's pretty normal.</p>
+<p><img alt="Residuals vs Fitted Values" src="/Users/paullopes/Desktop/RegressionCourseProject/figures/residuals_vs_fitted.png" /><br />
+<em>Figure 1: Residuals vs. Fitted Values. This plot checks for heteroskedasticity and nonlinearity. The random scatter around zero suggests our model assumptions are reasonable.</em></p>
+<p>The <strong>Q-Q plot</strong> (Figure 2) shows that our residuals are mostly normally distributed, though there are some deviations in the tails. The middle portion follows the line pretty closely, which is what matters most for our hypothesis tests. The tail deviations suggest we might have some outliers, but nothing too extreme.</p>
+<p><img alt="Normal Q-Q Plot" src="/Users/paullopes/Desktop/RegressionCourseProject/figures/qq_plot.png" /><br />
+<em>Figure 2: Normal Q-Q Plot. This plot checks if residuals are normally distributed. The points mostly follow the line, supporting our use of OLS regression.</em></p>
+<p>Overall, the diagnostic plots support our use of OLS regression.</p>
 <h2>Discussion</h2>
 <p>The most striking finding from our analysis is how strong the momentum effect is. Stocks that performed well in the first 90 days of 2017 tended to keep performing well for the rest of the year. This aligns with what researchers like Jegadeesh and Titman found back in the 1990s - there's a momentum anomaly where recent winners continue to outperform.</p>
 <p>The negative volatility coefficient was also interesting. It suggests that during 2017, investors might have preferred stability over risk. This could be because 2017 was a relatively calm year in the markets, and in calm environments, less volatile stocks sometimes outperform. Or it could be related to the low-volatility premium that some factor investors talk about.</p>

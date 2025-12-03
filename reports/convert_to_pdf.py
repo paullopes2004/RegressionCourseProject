@@ -3,11 +3,24 @@
 import markdown
 from pathlib import Path
 import re
+import os
+
+# Get the project root directory (one level up from reports/)
+project_root = Path(__file__).parent.parent
+reports_dir = Path(__file__).parent
 
 # Read the markdown file
-md_file = Path('Project_Summary.md')
+md_file = reports_dir / 'Project_Summary.md'
 with open(md_file, 'r', encoding='utf-8') as f:
     md_content = f.read()
+
+# Convert relative image paths to absolute paths
+# Replace figures/ paths with absolute paths
+md_content = re.sub(
+    r'!\[([^\]]+)\]\(figures/([^\)]+)\)',
+    lambda m: f'![{m.group(1)}]({project_root}/figures/{m.group(2)})',
+    md_content
+)
 
 # Convert markdown to HTML with extensions for tables and code
 html_body = markdown.markdown(md_content, extensions=['tables', 'fenced_code', 'nl2br'])
@@ -162,6 +175,14 @@ html_document = f"""<!DOCTYPE html>
         
         a:visited {{
             color: #551A8B;
+        }}
+        
+        img {{
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em auto;
+            page-break-inside: avoid;
         }}
         
         /* Fix for markdown tables */
