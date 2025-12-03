@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S&P 500 Stock Regression Project</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.75in;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', 'Times', serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: #000;
+            max-width: 100%;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            font-size: 18pt;
+            font-weight: bold;
+            margin-top: 0.5em;
+            margin-bottom: 0.5em;
+            page-break-after: avoid;
+            border-bottom: 2px solid #000;
+            padding-bottom: 0.3em;
+        }
+        
+        h2 {
+            font-size: 14pt;
+            font-weight: bold;
+            margin-top: 1.2em;
+            margin-bottom: 0.6em;
+            page-break-after: avoid;
+            border-bottom: 1px solid #666;
+            padding-bottom: 0.2em;
+        }
+        
+        h3 {
+            font-size: 12pt;
+            font-weight: bold;
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            page-break-after: avoid;
+        }
+        
+        p {
+            margin-bottom: 0.8em;
+            text-align: justify;
+            orphans: 3;
+            widows: 3;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+            font-size: 10pt;
+            page-break-inside: avoid;
+        }
+        
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            font-family: 'Courier New', 'Courier', monospace;
+            font-size: 10pt;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+        
+        pre {
+            background-color: #f4f4f4;
+            padding: 12px;
+            overflow-x: auto;
+            font-size: 9pt;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+        
+        pre code {
+            background-color: transparent;
+            padding: 0;
+            border: none;
+        }
+        
+        ul, ol {
+            margin-bottom: 0.8em;
+            padding-left: 2em;
+        }
+        
+        li {
+            margin-bottom: 0.4em;
+        }
+        
+        strong {
+            font-weight: bold;
+        }
+        
+        em {
+            font-style: italic;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid #666;
+            margin: 1.5em 0;
+        }
+        
+        a {
+            color: #0000EE;
+            text-decoration: underline;
+        }
+        
+        a:visited {
+            color: #551A8B;
+        }
+        
+        /* Fix for markdown tables */
+        table thead {
+            display: table-header-group;
+        }
+        
+        table tfoot {
+            display: table-footer-group;
+        }
+    </style>
+</head>
+<body>
+<h1>S&amp;P 500 Stock Regression Project</h1>
+<p><strong>Course:</strong> Regression Methods<br />
+<strong>Students:</strong> Paul Lopes, Arpeet Barvalia<br />
+<strong>Date:</strong> December 2, 2025<br />
+<strong>Repository:</strong> https://github.com/paullopes2004/RegressionCourseProject</p>
+<p><strong>Contributions:</strong> Paul Lopes handled the data wrangling, feature engineering, and regression modeling. Arpeet Barvalia contributed to the visualization work, helped with the interpretation of results, and provided feedback on the report structure. Both team members reviewed the final report and presentation materials.</p>
+<hr />
+<h2>Abstract</h2>
+<p>For this project, we wanted to see if we could predict stock returns using just basic trading data that anyone can access. We used a dataset from Kaggle that has daily stock prices for S&amp;P 500 companies from 2013 to 2018. Our goal was to figure out which simple trading characteristics could explain why some stocks performed better than others over a one-year period.</p>
+<p>We calculated a bunch of features from the 2017 trading data - things like how volatile each stock was, how much it was traded on average, whether it had early momentum, and what its short-term trend looked like. Then we used multiple linear regression to see how well these features could predict the actual returns from early 2017 to early 2018.</p>
+<p>The results were pretty interesting - our model explained about 53% of the variation in returns across 503 different stocks. The biggest predictor turned out to be momentum (stocks that did well early in the year tended to keep doing well), and volatility had a negative effect (riskier stocks actually underperformed). We checked our model assumptions with diagnostic plots and everything looked reasonable, though there were some minor deviations from perfect normality in the residuals.</p>
+<h2>Introduction</h2>
+<p>When we first started thinking about what to do for this regression project, we knew we wanted to work with real data that felt relevant. Stock market data seemed perfect because it's something most people can relate to, and there's tons of publicly available data out there. Plus, we thought it would be cool to see if we could actually build a model that predicts stock performance.</p>
+<p>The basic question we're trying to answer is pretty straightforward: <em>Can we use simple trading characteristics to predict which stocks will have better returns?</em> We're not trying to build the next hedge fund algorithm here - we just wanted to see if the regression techniques we learned in class could actually tell us something useful about the stock market.</p>
+<p>We decided to focus on technical indicators (things you can calculate from price data alone) rather than fundamental analysis (like earnings or balance sheets) because technical indicators are easier to compute and don't require digging through financial statements. This also made the project more accessible - anyone with the dataset could reproduce our work.</p>
+<p>The S&amp;P 500 is a good choice because it represents large, well-known companies that trade actively, so we'd have plenty of data to work with. We picked 2017 as our focus year because it was a relatively normal market year (not a huge crash or bubble), which we thought would give us more generalizable results.</p>
+<p>What we found was that momentum really matters - stocks that started the year strong tended to finish strong. This actually aligns with a lot of what researchers have found in behavioral finance, which was cool to see in our own analysis. We also found that volatility had a negative relationship with returns, which was a bit surprising at first but makes sense when you think about risk-adjusted returns.</p>
+<h2>Materials and Methods</h2>
+<h3>Data Source</h3>
+<p>We used Cam Nugent's "S&amp;P 500 Stock Data" dataset from Kaggle (https://www.kaggle.com/datasets/camnugent/sandp500). This dataset has over 600,000 daily observations covering S&amp;P 500 companies from 2013 through 2018. Each row includes the ticker symbol, date, and the standard OHLCV data (open, high, low, close prices, and volume). We downloaded the <code>all_stocks_5yr.csv</code> file and stored it in our <code>data/raw/</code> folder.</p>
+<p>One thing we learned early on is that working with financial data can be messy - some tickers have missing days, some companies got added or removed from the S&amp;P 500 during our time period, and there are occasional data quality issues. We had to be pretty careful about cleaning everything up.</p>
+<h3>Software and Tools</h3>
+<p>We did everything in R using version 4.4. The main packages we used were:<br />
+- <code>tidyverse</code> for data manipulation and plotting<br />
+- <code>lubridate</code> for handling dates (which was super helpful)<br />
+- <code>broom</code> for extracting model results in a tidy format<br />
+- <code>scales</code> for formatting plots</p>
+<p>All our code is in <code>scripts/sp500_regression.R</code> so anyone can reproduce our analysis.</p>
+<h3>Data Pre-processing</h3>
+<p>The first step was cleaning up the raw data. We converted column names to lowercase (R is case-sensitive and this just makes life easier), converted the date column to R's Date format, and sorted everything chronologically by ticker. </p>
+<p>Then we calculated daily log returns for each stock. Log returns are nice because they're symmetric (a 10% gain followed by a 10% loss gets you back to where you started, which isn't true with simple returns). The formula is just <code>log(close) - log(lag(close))</code> for each day.</p>
+<p>We filtered out any tickers that had fewer than 20 valid daily returns in 2017. This was important because we needed enough data points to calculate stable statistics like volatility. If a stock only traded a few days, our volatility estimate would be really unreliable.</p>
+<h3>Feature Engineering</h3>
+<p>This was probably the most time-consuming part of the project. For each ticker, we needed to:<br />
+1. Isolate all the trading days from 2017 (and grab the first trading day of 2018 for our response variable)<br />
+2. Calculate our four predictor variables using only 2017 data<br />
+3. Calculate the response variable (the log return from early 2017 to early 2018)</p>
+<p>Here's what each variable represents:</p>
+<p><strong>Volatility</strong>: This is the annualized standard deviation of daily log returns. We multiplied by √252 because there are about 252 trading days in a year. Higher volatility means the stock price jumps around more.</p>
+<p><strong>Average Volume (avg_volume_mln)</strong>: This is just the mean daily trading volume divided by one million to make the numbers more readable. Volume tells us how actively a stock is being traded.</p>
+<p><strong>90-Day Momentum (momentum_90)</strong>: This is the log return over the first 90 trading days of 2017. We wanted to see if stocks that started the year strong would continue to perform well. The idea is that momentum might persist - winners keep winning, at least for a while.</p>
+<p><strong>30-Day Moving Average Trend (trend_ma30)</strong>: This captures the short-term trend at the start of the year. We calculated the 30-day moving average of closing prices and then looked at how different it was from the starting price. If the moving average is higher than the starting price, it suggests an upward trend.</p>
+<p><strong>Response Variable (y_log_return)</strong>: This is the forward-looking log return from the first trading day of 2017 to the first trading day of 2018. We used the first trading day of each year to be consistent and avoid any end-of-year effects.</p>
+<p>After all this feature engineering, we ended up with 503 tickers that had complete data for all our variables. We dropped any tickers with missing values because we wanted a clean dataset for our regression.</p>
+<h3>Model Specification</h3>
+<p>We fit a simple multiple linear regression using ordinary least squares (OLS). The model is:</p>
+<pre><code>y_log_return ~ volatility + avg_volume_mln + momentum_90 + trend_ma30
+</code></pre>
+<p>We chose OLS because it's straightforward, interpretable, and we wanted to see if a simple linear model could capture the relationships. We didn't try any fancy machine learning techniques because this is a regression course, and we wanted to focus on understanding the linear relationships and checking model assumptions.</p>
+<h3>Model Diagnostics</h3>
+<p>We created two main diagnostic plots to check our model assumptions:<br />
+1. <strong>Residuals vs. Fitted plot</strong>: This helps us see if there's heteroskedasticity (non-constant variance) or if the linear relationship assumption is violated<br />
+2. <strong>Normal Q-Q plot</strong>: This checks if our residuals are normally distributed, which is important for valid hypothesis tests</p>
+<p>We also exported all our model outputs (coefficients, fit statistics, and residuals) to CSV files in the <code>outputs/</code> directory so we could reference them later and share them with anyone who wants to dig deeper.</p>
+<h2>Results</h2>
+<h3>Descriptive Statistics</h3>
+<p>Our final dataset had 503 tickers, which is pretty good coverage of the S&amp;P 500 (some companies were excluded because they didn't have enough data or were added/removed during 2017). The median starting price was around $69.77, which makes sense for large-cap stocks.</p>
+<p>The average 1-year log return was 0.187, which translates to about a 20.6% simple return. That's actually pretty good for 2017 - it was a strong year for the market overall. The returns varied quite a bit though, with some stocks losing money and others doubling.</p>
+<p>Volatility ranged from about 9% to 60% annualized, which shows there's a huge range in how much different stocks move around. Tech stocks and biotech companies tend to be more volatile, while utilities and consumer staples are usually calmer.</p>
+<p>The 90-day momentum variable had a really wide range too - from about -55% to +43% in log return terms. This means some stocks had a terrible start to 2017 while others were off to the races. This wide variation is actually good for our regression because it gives us more signal to work with.</p>
+<h3>Model Fit</h3>
+<p>Our regression model performed pretty well! The R² was 0.529, which means we're explaining about 53% of the variation in returns. The adjusted R² was 0.525, which is almost the same, so we're not overfitting. The residual standard error was 0.158, which means our predictions are off by about 15.8% on average (in log return terms).</p>
+<p>The F-statistic was 139.7 with a p-value less than 10⁻⁷⁸, which is basically zero. This tells us that our model is doing significantly better than just predicting the mean return for everyone. In other words, our predictors are actually useful.</p>
+<h3>Coefficient Estimates</h3>
+<p>Here's what we found for each predictor:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Estimate</th>
+<th>Std. Error</th>
+<th>t</th>
+<th>p-value</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(Intercept)</td>
+<td>0.186</td>
+<td>0.021</td>
+<td>8.98</td>
+<td>&lt;1e-17</td>
+<td>Baseline log return when all predictors are zero</td>
+</tr>
+<tr>
+<td>volatility</td>
+<td>-0.468</td>
+<td>0.089</td>
+<td>-5.28</td>
+<td>2e-7</td>
+<td>Higher volatility is associated with lower returns</td>
+</tr>
+<tr>
+<td>avg_volume_mln</td>
+<td>0.00070</td>
+<td>0.00111</td>
+<td>0.63</td>
+<td>0.531</td>
+<td>Trading volume doesn't significantly predict returns</td>
+</tr>
+<tr>
+<td>momentum_90</td>
+<td>1.047</td>
+<td>0.073</td>
+<td>14.3</td>
+<td>&lt;1e-38</td>
+<td>Early momentum strongly predicts full-year performance</td>
+</tr>
+<tr>
+<td>trend_ma30</td>
+<td>0.233</td>
+<td>0.195</td>
+<td>1.20</td>
+<td>0.231</td>
+<td>Short-term trend isn't significant after controlling for momentum</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>intercept</strong> of 0.186 makes sense - it's close to the average return we saw in the data. This is what you'd expect if all our predictors were at their average values.</p>
+<p>The <strong>volatility</strong> coefficient of -0.468 was negative and highly significant. This was interesting because it suggests that riskier stocks actually underperformed during this period. For every 1 unit increase in annualized volatility, the log return decreases by about 0.47 units. This could be related to the "low volatility anomaly" that some researchers have found - sometimes less volatile stocks outperform riskier ones, which contradicts traditional finance theory.</p>
+<p><strong>Average volume</strong> had a tiny positive coefficient (0.0007) but it wasn't statistically significant (p = 0.531). This means trading activity doesn't really help us predict returns in a cross-sectional sense. We thought maybe more liquid stocks would perform better, but the data didn't support that.</p>
+<p><strong>Momentum</strong> was by far the strongest predictor with a coefficient of 1.047 and a p-value essentially zero. This means that if a stock's 90-day momentum increases by 0.1 (a 10% log return), we'd expect the full-year return to increase by about 0.105. The coefficient being close to 1 is interesting - it suggests that early momentum doesn't just predict returns, it almost directly translates to full-year performance. This is the momentum effect that's been documented in finance literature.</p>
+<p><strong>Trend MA30</strong> had a positive coefficient (0.233) but wasn't significant (p = 0.231). Once we control for momentum, the short-term moving average trend doesn't add much. This makes sense because momentum and trend are probably capturing similar information.</p>
+<h3>Diagnostics</h3>
+<p>The <strong>residuals vs. fitted plot</strong> (<code>figures/residuals_vs_fitted.png</code>) shows that our residuals are scattered pretty evenly around zero without any obvious patterns. There's no strong funnel shape (which would indicate heteroskedasticity) and no obvious curves (which would suggest we need nonlinear terms). The points are a bit more spread out at the extremes, but that's pretty normal.</p>
+<p>The <strong>Q-Q plot</strong> (<code>figures/qq_plot.png</code>) shows that our residuals are mostly normally distributed, though there are some deviations in the tails. The middle portion follows the line pretty closely, which is what matters most for our hypothesis tests. The tail deviations suggest we might have some outliers, but nothing too extreme. Overall, the diagnostic plots support our use of OLS regression.</p>
+<h2>Discussion</h2>
+<p>The most striking finding from our analysis is how strong the momentum effect is. Stocks that performed well in the first 90 days of 2017 tended to keep performing well for the rest of the year. This aligns with what researchers like Jegadeesh and Titman found back in the 1990s - there's a momentum anomaly where recent winners continue to outperform.</p>
+<p>The negative volatility coefficient was also interesting. It suggests that during 2017, investors might have preferred stability over risk. This could be because 2017 was a relatively calm year in the markets, and in calm environments, less volatile stocks sometimes outperform. Or it could be related to the low-volatility premium that some factor investors talk about.</p>
+<p>The fact that volume and the moving average trend weren't significant was a bit disappointing, but it makes sense. Volume might not be a good cross-sectional predictor because all S&amp;P 500 stocks are already pretty liquid. And the moving average trend probably overlaps too much with momentum to add independent information.</p>
+<p>There are definitely some limitations to our analysis. First, we only looked at one year (2017), so we don't know if these relationships hold in other market conditions. A bear market or a bubble might give very different results. Second, we didn't control for sector effects - maybe tech stocks just happened to have high momentum in 2017, and that's driving our results. Third, we only used technical indicators and ignored fundamental factors like P/E ratios or earnings growth, which might be important.</p>
+<p>If we were to extend this project, we'd want to:<br />
+- Look at multiple years to see if the coefficients are stable<br />
+- Add sector fixed effects to control for industry differences<br />
+- Maybe try some regularization techniques like LASSO to see if we can improve predictions<br />
+- Include some fundamental variables to see if they add explanatory power</p>
+<p>But even with these limitations, we think our model does a pretty good job. Explaining 53% of the variation in returns with just four simple variables is actually pretty impressive. It shows that basic technical indicators can tell us something meaningful about stock performance, at least in the short term.</p>
+<p>One thing we learned is that regression assumptions really matter. We spent a good amount of time checking our diagnostic plots and making sure our model was appropriate. It's easy to just run a regression and report the R², but understanding whether the model is actually valid is crucial.</p>
+<p>We also learned that feature engineering is really important. The way we calculated our variables (like annualizing volatility or using log returns) made a big difference. Small choices in how you define your variables can have a big impact on your results.</p>
+<p>Overall, this project was a great way to apply what we learned in class to a real-world problem. It's one thing to work through textbook examples, but actually building a model from scratch and interpreting the results is much more engaging. We're definitely going to think about these results next time we look at our portfolios!</p>
+<h2>Acknowledgments</h2>
+<p>We'd like to thank Cam Nugent for making the S&amp;P 500 dataset available on Kaggle - it made our project possible and saved us a ton of time trying to collect data ourselves. We also want to thank our Regression Methods instructor for providing clear project guidelines and being available to answer questions when we got stuck.</p>
+<p>We used ChatGPT (OpenAI GPT-4) to help with some of the R scripting, especially when we were figuring out how to calculate the moving averages and handle edge cases in our feature engineering. We also used it to help structure some of the writing, though all the analysis and interpretation is our own work. We're citing this per the course policy on AI assistance.</p>
+<h2>Literature Cited</h2>
+<ol>
+<li>
+<p>Nugent, Cam. "S&amp;P 500 Stock Data." Kaggle, https://www.kaggle.com/datasets/camnugent/sandp500 (accessed Nov 29, 2025).</p>
+</li>
+<li>
+<p>Jegadeesh, N., &amp; Titman, S. (1993). Returns to buying winners and selling losers: Implications for stock market efficiency. <em>Journal of Finance</em>, 48(1), 65-91. This paper provides the theoretical foundation for the momentum effect we observed in our results.</p>
+</li>
+<li>
+<p>Bates College Biology Department. "How to Write Guide." https://www.bates.edu/biology/files/2010/06/How-to-Write-Guide-v10-2014.pdf (accessed October 26, 2025). We used this guide to structure our project summary following scientific paper format.</p>
+</li>
+</ol>
+<h2>Appendices</h2>
+<p><strong>Appendix A:</strong> Complete R analysis pipeline<br />
+Our full R script is located at <code>scripts/sp500_regression.R</code>. This script:<br />
+- Loads and cleans the raw Kaggle dataset<br />
+- Calculates daily log returns<br />
+- Engineers all four predictor variables and the response variable<br />
+- Fits the multiple linear regression model<br />
+- Generates diagnostic plots<br />
+- Exports all results to CSV files</p>
+<p>The script is fully reproducible - anyone can download the dataset and run it to get the same results we did.</p>
+<p><strong>Appendix B:</strong> Model output files<br />
+All model results are saved in the <code>outputs/</code> directory:<br />
+- <code>model_coefficients.csv</code>: Coefficient estimates with standard errors, t-statistics, p-values, and confidence intervals<br />
+- <code>model_glance.csv</code>: Overall model fit statistics (R², adjusted R², F-statistic, etc.)<br />
+- <code>model_augmented_residuals.csv</code>: Fitted values, residuals, and other diagnostic information for each observation</p>
+<p>These files are in CSV format so they can be easily opened in Excel or imported into other analysis tools.</p>
+<p><strong>Appendix C:</strong> Diagnostic plots<br />
+Two diagnostic plots are saved in the <code>figures/</code> directory:<br />
+- <code>residuals_vs_fitted.png</code>: Scatter plot of residuals against fitted values to check for heteroskedasticity and nonlinearity<br />
+- <code>qq_plot.png</code>: Normal quantile-quantile plot to assess the normality of residuals</p>
+<p>These plots are high-resolution (300 DPI) and ready to be included in presentations or reports.</p>
+<p><strong>Appendix D:</strong> Raw data<br />
+The original Kaggle dataset (<code>all_stocks_5yr.csv</code>) is stored in <code>data/raw/</code>. This file is not included in the written report submission due to size, but it's required for full reproducibility. The dataset can be downloaded from the Kaggle link provided in the Literature Cited section.</p>
+<p><strong>Appendix E:</strong> Processed features<br />
+The engineered feature dataset (<code>sp500_features.csv</code>) is saved in <code>data/processed/</code>. This contains one row per ticker with all our calculated variables. This intermediate file is useful for anyone who wants to skip the feature engineering step and jump straight to modeling.</p>
+<p><em>Dataset URL:</em> https://www.kaggle.com/datasets/camnugent/sandp500</p>
+</body>
+</html>
