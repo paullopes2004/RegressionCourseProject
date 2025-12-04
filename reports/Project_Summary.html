@@ -202,12 +202,12 @@ Paul Lopes handled the data wrangling, feature engineering, and regression model
 <p>We used Cam Nugent's "S&amp;P 500 Stock Data" dataset from Kaggle (https://www.kaggle.com/datasets/camnugent/sandp500). This dataset has over 600,000 daily observations covering S&amp;P 500 companies from 2013 through 2018. Each row includes the ticker symbol, date, and the standard OHLCV data (open, high, low, close prices, and volume). We downloaded the <code>all_stocks_5yr.csv</code> file and stored it in our <code>data/raw/</code> folder.</p>
 <p>One thing we learned early on is that working with financial data can be messy - some tickers have missing days, some companies got added or removed from the S&amp;P 500 during our time period, and there are occasional data quality issues. We had to be pretty careful about cleaning everything up.</p>
 <h3>Software and Tools</h3>
-<p>We did everything in R using version 4.4. The main packages we used were:<br />
+<p>We conducted all analyses using R version 4.4. The main packages we used were:<br />
 - <code>tidyverse</code> for data manipulation and plotting<br />
-- <code>lubridate</code> for handling dates (which was super helpful)<br />
+- <code>lubridate</code> for handling dates<br />
 - <code>broom</code> for extracting model results in a tidy format<br />
 - <code>scales</code> for formatting plots</p>
-<p>All our code is in <code>scripts/sp500_regression.R</code> so anyone can reproduce our analysis.</p>
+<p>All our code is available in <code>scripts/sp500_regression.R</code> so anyone can reproduce our analysis.</p>
 <h3>Data Pre-processing</h3>
 <p>The first step was cleaning up the raw data. We converted column names to lowercase (R is case-sensitive and this just makes life easier), converted the date column to R's Date format, and sorted everything chronologically by ticker. </p>
 <p>Then we calculated daily log returns for each stock. Log returns are nice because they're symmetric (a 10% gain followed by a 10% loss gets you back to where you started, which isn't true with simple returns). The formula is just <code>log(close) - log(lag(close))</code> for each day.</p>

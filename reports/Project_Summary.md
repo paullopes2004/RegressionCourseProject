@@ -48,13 +48,13 @@ One thing we learned early on is that working with financial data can be messy -
 
 ### Software and Tools
 
-We did everything in R using version 4.4. The main packages we used were:
+We conducted all analyses using R version 4.4. The main packages we used were:
 - `tidyverse` for data manipulation and plotting
-- `lubridate` for handling dates (which was super helpful)
+- `lubridate` for handling dates
 - `broom` for extracting model results in a tidy format
 - `scales` for formatting plots
 
-All our code is in `scripts/sp500_regression.R` so anyone can reproduce our analysis.
+All our code is available in `scripts/sp500_regression.R` so anyone can reproduce our analysis.
 
 ### Data Pre-processing
 
