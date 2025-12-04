@@ -22,21 +22,21 @@ Paul Lopes handled the data wrangling, feature engineering, and regression model
 
 For this project, we wanted to see if we could predict stock returns using just basic trading data that anyone can access. We used a dataset from Kaggle that has daily stock prices for S&P 500 companies from 2013 to 2018. Our goal was to figure out which simple trading characteristics could explain why some stocks performed better than others over a one-year period.
 
-We calculated a bunch of features from the 2017 trading data - things like how volatile each stock was, how much it was traded on average, whether it had early momentum, and what its short-term trend looked like. Then we used multiple linear regression to see how well these features could predict the actual returns from early 2017 to early 2018.
+We calculated a bunch of features from the 2017 trading data, things like how volatile each stock was, how much it was traded on average, whether it had early momentum, and what its short-term trend looked like. Then we used multiple linear regression to see how well these features could predict the actual returns from early 2017 to early 2018.
 
-The results were pretty interesting - our model explained about 53% of the variation in returns across 503 different stocks. The biggest predictor turned out to be momentum (stocks that did well early in the year tended to keep doing well), and volatility had a negative effect (riskier stocks actually underperformed). We checked our model assumptions with diagnostic plots and everything looked reasonable, though there were some minor deviations from perfect normality in the residuals.
+The results were pretty interesting, our model explained about 53% of the variation in returns across 503 different stocks. The biggest predictor turned out to be momentum (stocks that did well early in the year tended to keep doing well), and volatility had a negative effect (riskier stocks actually underperformed). We checked our model assumptions with diagnostic plots and everything looked reasonable, though there were some minor deviations from perfect normality in the residuals.
 
 ## Introduction
 
 When we first started thinking about what to do for this regression project, we knew we wanted to work with real data that felt relevant. Stock market data seemed perfect because it's something most people can relate to, and there's tons of publicly available data out there. Plus, we thought it would be cool to see if we could actually build a model that predicts stock performance.
 
-The basic question we're trying to answer is pretty straightforward: *Can we use simple trading characteristics to predict which stocks will have better returns?* We're not trying to build the next hedge fund algorithm here - we just wanted to see if the regression techniques we learned in class could actually tell us something useful about the stock market.
+The basic question we're trying to answer is pretty straightforward: *Can we use simple trading characteristics to predict which stocks will have better returns?* We're not trying to build the next hedge fund algorithm here, we just wanted to see if the regression techniques we learned in class could actually tell us something useful about the stock market.
 
-We decided to focus on technical indicators (things you can calculate from price data alone) rather than fundamental analysis (like earnings or balance sheets) because technical indicators are easier to compute and don't require digging through financial statements. This also made the project more accessible - anyone with the dataset could reproduce our work.
+We decided to focus on technical indicators (things you can calculate from price data alone) rather than fundamental analysis (like earnings or balance sheets) because technical indicators are easier to compute and don't require digging through financial statements. This also made the project more accessible, anyone with the dataset could reproduce our work.
 
 The S&P 500 is a good choice because it represents large, well-known companies that trade actively, so we'd have plenty of data to work with. We picked 2017 as our focus year because it was a relatively normal market year (not a huge crash or bubble), which we thought would give us more generalizable results.
 
-What we found was that momentum really matters - stocks that started the year strong tended to finish strong. This actually aligns with a lot of what researchers have found in behavioral finance, which was cool to see in our own analysis. We also found that volatility had a negative relationship with returns, which was a bit surprising at first but makes sense when you think about risk-adjusted returns.
+What we found was that momentum really matters, stocks that started the year strong tended to finish strong. This actually aligns with a lot of what researchers have found in behavioral finance, which was cool to see in our own analysis. We also found that volatility had a negative relationship with returns, which was a bit surprising at first but makes sense when you think about risk-adjusted returns.
 
 ## Materials and Methods
 
@@ -44,7 +44,7 @@ What we found was that momentum really matters - stocks that started the year st
 
 We used Cam Nugent's "S&P 500 Stock Data" dataset from Kaggle (https://www.kaggle.com/datasets/camnugent/sandp500). This dataset has over 600,000 daily observations covering S&P 500 companies from 2013 through 2018. Each row includes the ticker symbol, date, and the standard OHLCV data (open, high, low, close prices, and volume). We downloaded the `all_stocks_5yr.csv` file and stored it in our `data/raw/` folder.
 
-One thing we learned early on is that working with financial data can be messy - some tickers have missing days, some companies got added or removed from the S&P 500 during our time period, and there are occasional data quality issues. We had to be pretty careful about cleaning everything up.
+One thing we learned early on is that working with financial data can be messy, some tickers have missing days, some companies got added or removed from the S&P 500 during our time period, and there are occasional data quality issues. We had to be pretty careful about cleaning everything up.
 
 ### Software and Tools
 
@@ -77,7 +77,7 @@ Here's what each variable represents:
 
 **Average Volume (avg_volume_mln)**: This is just the mean daily trading volume divided by one million to make the numbers more readable. Volume tells us how actively a stock is being traded.
 
-**90-Day Momentum (momentum_90)**: This is the log return over the first 90 trading days of 2017. We wanted to see if stocks that started the year strong would continue to perform well. The idea is that momentum might persist - winners keep winning, at least for a while.
+**90-Day Momentum (momentum_90)**: This is the log return over the first 90 trading days of 2017. We wanted to see if stocks that started the year strong would continue to perform well. The idea is that momentum might persist, winners keep winning, at least for a while.
 
 **30-Day Moving Average Trend (trend_ma30)**: This captures the short-term trend at the start of the year. We calculated the 30-day moving average of closing prices and then looked at how different it was from the starting price. If the moving average is higher than the starting price, it suggests an upward trend.
 
@@ -109,11 +109,24 @@ We also exported all our model outputs (coefficients, fit statistics, and residu
 
 Our final dataset had 503 tickers, which is pretty good coverage of the S&P 500 (some companies were excluded because they didn't have enough data or were added/removed during 2017). The median starting price was around $69.77, which makes sense for large-cap stocks.
 
-The average 1-year log return was 0.187, which translates to about a 20.6% simple return. That's actually pretty good for 2017 - it was a strong year for the market overall. The returns varied quite a bit though, with some stocks losing money and others doubling.
+The average 1-year log return was 0.187, which translates to about a 20.6% simple return. That's actually pretty good for 2017, it was a strong year for the market overall. The returns varied quite a bit though, with some stocks losing money and others doubling.
 
 Volatility ranged from about 9% to 60% annualized, which shows there's a huge range in how much different stocks move around. Tech stocks and biotech companies tend to be more volatile, while utilities and consumer staples are usually calmer.
 
-The 90-day momentum variable had a really wide range too - from about -55% to +43% in log return terms. This means some stocks had a terrible start to 2017 while others were off to the races. This wide variation is actually good for our regression because it gives us more signal to work with.
+The 90-day momentum variable had a really wide range too, from about -55% to +43% in log return terms. This means some stocks had a terrible start to 2017 while others were off to the races. This wide variation is actually good for our regression because it gives us more signal to work with.
+
+**Sample Data Preview**
+
+Below is a preview of the first few rows of our processed dataset to illustrate the structure of the data:
+
+| name | observations_2017 | start_price | end_price | y_log_return | volatility | avg_volume_mln | momentum_90 | trend_ma30 |
+|------|-------------------|-------------|-----------|--------------|------------|-----------------|-------------|------------|
+| A    | 251              | 46.49       | 67.60     | 0.374        | 0.170      | 1.85            | 0.190       | 0.045      |
+| AAL  | 251              | 46.30       | 52.99     | 0.135        | 0.286      | 5.87            | 0.005       | 0.006      |
+| AAP  | 251              | 170.60      | 106.09    | -0.475       | 0.404      | 1.66            | -0.156      | -0.019     |
+| AAPL | 251              | 116.15      | 172.26    | 0.394        | 0.182      | 27.08           | 0.282       | 0.063      |
+| ABBV | 251              | 62.41       | 98.41     | 0.455        | 0.178      | 5.98            | 0.045       | -0.015     |
+| ABC  | 251              | 82.61       | 94.04     | 0.130        | 0.258      | 1.79            | 0.073       | 0.045      |
 
 ### Model Fit
 
@@ -133,13 +146,13 @@ Here's what we found for each predictor:
 | momentum_90 | 1.047 | 0.073 | 14.3 | <1e-38 | Early momentum strongly predicts full-year performance |
 | trend_ma30 | 0.233 | 0.195 | 1.20 | 0.231 | Short-term trend isn't significant after controlling for momentum |
 
-The **intercept** of 0.186 makes sense - it's close to the average return we saw in the data. This is what you'd expect if all our predictors were at their average values.
+The **intercept** of 0.186 makes sense, it's close to the average return we saw in the data. This is what you'd expect if all our predictors were at their average values.
 
-The **volatility** coefficient of -0.468 was negative and highly significant. This was interesting because it suggests that riskier stocks actually underperformed during this period. For every 1 unit increase in annualized volatility, the log return decreases by about 0.47 units. This could be related to the "low volatility anomaly" that some researchers have found - sometimes less volatile stocks outperform riskier ones, which contradicts traditional finance theory.
+The **volatility** coefficient of -0.468 was negative and highly significant. This was interesting because it suggests that riskier stocks actually underperformed during this period. For every 1 unit increase in annualized volatility, the log return decreases by about 0.47 units. This could be related to the "low volatility anomaly" that some researchers have found, sometimes less volatile stocks outperform riskier ones, which contradicts traditional finance theory.
 
 **Average volume** had a tiny positive coefficient (0.0007) but it wasn't statistically significant (p = 0.531). This means trading activity doesn't really help us predict returns in a cross-sectional sense. We thought maybe more liquid stocks would perform better, but the data didn't support that.
 
-**Momentum** was by far the strongest predictor with a coefficient of 1.047 and a p-value essentially zero. This means that if a stock's 90-day momentum increases by 0.1 (a 10% log return), we'd expect the full-year return to increase by about 0.105. The coefficient being close to 1 is interesting - it suggests that early momentum doesn't just predict returns, it almost directly translates to full-year performance. This is the momentum effect that's been documented in finance literature.
+**Momentum** was by far the strongest predictor with a coefficient of 1.047 and a p-value essentially zero. This means that if a stock's 90-day momentum increases by 0.1 (a 10% log return), we'd expect the full-year return to increase by about 0.105. The coefficient being close to 1 is interesting, it suggests that early momentum doesn't just predict returns, it almost directly translates to full-year performance. This is the momentum effect that's been documented in finance literature.
 
 **Trend MA30** had a positive coefficient (0.233) but wasn't significant (p = 0.231). Once we control for momentum, the short-term moving average trend doesn't add much. This makes sense because momentum and trend are probably capturing similar information.
 
@@ -159,7 +172,7 @@ Overall, the diagnostic plots support our use of OLS regression.
 
 ## Discussion
 
-The most striking finding from our analysis is how strong the momentum effect is. Stocks that performed well in the first 90 days of 2017 tended to keep performing well for the rest of the year. This aligns with what researchers like Jegadeesh and Titman found back in the 1990s - there's a momentum anomaly where recent winners continue to outperform.
+The most striking finding from our analysis is how strong the momentum effect is. Stocks that performed well in the first 90 days of 2017 tended to keep performing well for the rest of the year. This aligns with what researchers like Jegadeesh and Titman found back in the 1990s, there's a momentum anomaly where recent winners continue to outperform.
 
 The negative volatility coefficient was also interesting. It suggests that during 2017, investors might have preferred stability over risk. This could be because 2017 was a relatively calm year in the markets, and in calm environments, less volatile stocks sometimes outperform. Or it could be related to the low-volatility premium that some factor investors talk about.
 
@@ -191,9 +204,11 @@ We used ChatGPT (OpenAI GPT-4) to help with some of the R scripting, especially 
 
 1. Nugent, Cam. "S&P 500 Stock Data." Kaggle, https://www.kaggle.com/datasets/camnugent/sandp500 (accessed Nov 29, 2025).
 
-2. Jegadeesh, N., & Titman, S. (1993). Returns to buying winners and selling losers: Implications for stock market efficiency. *Journal of Finance*, 48(1), 65-91. This paper provides the theoretical foundation for the momentum effect we observed in our results.
+2. Jegadeesh, N., & Titman, S. (1993). Returns to buying winners and selling losers: Implications for stock market efficiency. *Journal of Finance*, 48(1), 65-91.  
+   This paper provides the theoretical foundation for the momentum effect we observed in our results.
 
-3. Bates College Biology Department. "How to Write Guide." https://www.bates.edu/biology/files/2010/06/How-to-Write-Guide-v10-2014.pdf (accessed October 26, 2025). We used this guide to structure our project summary following scientific paper format.
+3. Bates College Biology Department. "How to Write Guide." https://www.bates.edu/biology/files/2010/06/How-to-Write-Guide-v10-2014.pdf (accessed October 26, 2025).  
+   We used this guide to structure our project summary following scientific paper format.
 
 ## Appendices
 
