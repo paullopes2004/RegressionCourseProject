@@ -1,12 +1,30 @@
 # S&P 500 Stock Regression Project
-**Course:** Regression Methods  
-**Students:** Paul Lopes, Arpeet Barvalia  
-**Date:** December 2, 2025  
+
+<br><br><br><br><br>
+
+**Course:** Regression Methods
+
+<br>
+
+**Team Members:**  
+Paul Lopes  
+Arpeet Barvalia
+
+<br>
+
+**Date Completed:**  
+December 2, 2025
+
+<br>
+
+**Contributions:**  
+Paul Lopes handled the data wrangling, feature engineering, and regression modeling. Arpeet Barvalia contributed to the visualization work, helped with the interpretation of results, and provided feedback on the report structure. Both team members reviewed the final report and presentation materials.
+
+<br>
+
 **Repository:** https://github.com/paullopes2004/RegressionCourseProject
 
-**Contributions:** Paul Lopes handled the data wrangling, feature engineering, and regression modeling. Arpeet Barvalia contributed to the visualization work, helped with the interpretation of results, and provided feedback on the report structure. Both team members reviewed the final report and presentation materials.
-
----
+<div style="page-break-after: always;"></div>
 
 ## Abstract
 

@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S&P 500 Stock Regression Project</title>
     <style>
         @page {
@@ -10,28 +9,44 @@
             margin: 0.75in;
         }
         
-        @media print {
-            body {
-                margin: 0;
-                padding: 0;
-            }
-            .page-break {
-                page-break-before: always;
-            }
-        }
-        
-        * {
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Times New Roman', 'Times', serif;
+            font-family: 'Times New Roman', serif;
             font-size: 11pt;
             line-height: 1.6;
             color: #000;
-            max-width: 100%;
             margin: 0;
             padding: 20px;
+        }
+        
+        .cover-page {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            page-break-after: always;
+        }
+        
+        .cover-page h1 {
+            font-size: 24pt;
+            font-weight: bold;
+            margin-bottom: 2em;
+            border: none;
+            padding: 0;
+        }
+        
+        .cover-page p {
+            text-align: center;
+            margin: 0.5em 0;
+        }
+        
+        .cover-page strong {
+            font-size: 12pt;
+        }
+        
+        .main-content {
+            page-break-before: always;
         }
         
         h1 {
@@ -95,7 +110,7 @@
         code {
             background-color: #f4f4f4;
             padding: 2px 5px;
-            font-family: 'Courier New', 'Courier', monospace;
+            font-family: 'Courier New', monospace;
             font-size: 10pt;
             border: 1px solid #ddd;
             border-radius: 3px;
@@ -145,10 +160,6 @@
             text-decoration: underline;
         }
         
-        a:visited {
-            color: #551A8B;
-        }
-        
         img {
             max-width: 100%;
             height: auto;
@@ -156,25 +167,26 @@
             margin: 1em auto;
             page-break-inside: avoid;
         }
-        
-        /* Fix for markdown tables */
-        table thead {
-            display: table-header-group;
-        }
-        
-        table tfoot {
-            display: table-footer-group;
-        }
     </style>
 </head>
 <body>
 <h1>S&amp;P 500 Stock Regression Project</h1>
-<p><strong>Course:</strong> Regression Methods<br />
-<strong>Students:</strong> Paul Lopes, Arpeet Barvalia<br />
-<strong>Date:</strong> December 2, 2025<br />
-<strong>Repository:</strong> https://github.com/paullopes2004/RegressionCourseProject</p>
-<p><strong>Contributions:</strong> Paul Lopes handled the data wrangling, feature engineering, and regression modeling. Arpeet Barvalia contributed to the visualization work, helped with the interpretation of results, and provided feedback on the report structure. Both team members reviewed the final report and presentation materials.</p>
-<hr />
+<p><br><br><br><br><br></p>
+<p><strong>Course:</strong> Regression Methods</p>
+<p><br></p>
+<p><strong>Team Members:</strong><br />
+Paul Lopes<br />
+Arpeet Barvalia</p>
+<p><br></p>
+<p><strong>Date Completed:</strong><br />
+December 2, 2025</p>
+<p><br></p>
+<p><strong>Contributions:</strong><br />
+Paul Lopes handled the data wrangling, feature engineering, and regression modeling. Arpeet Barvalia contributed to the visualization work, helped with the interpretation of results, and provided feedback on the report structure. Both team members reviewed the final report and presentation materials.</p>
+<p><br></p>
+<p><strong>Repository:</strong> https://github.com/paullopes2004/RegressionCourseProject</p>
+</div><div class="main-content">
+
 <h2>Abstract</h2>
 <p>For this project, we wanted to see if we could predict stock returns using just basic trading data that anyone can access. We used a dataset from Kaggle that has daily stock prices for S&amp;P 500 companies from 2013 to 2018. Our goal was to figure out which simple trading characteristics could explain why some stocks performed better than others over a one-year period.</p>
 <p>We calculated a bunch of features from the 2017 trading data - things like how volatile each stock was, how much it was traded on average, whether it had early momentum, and what its short-term trend looked like. Then we used multiple linear regression to see how well these features could predict the actual returns from early 2017 to early 2018.</p>
@@ -354,6 +366,6 @@ Two diagnostic plots are saved in the <code>figures/</code> directory:<br />
 The original Kaggle dataset (<code>all_stocks_5yr.csv</code>) is stored in <code>data/raw/</code>. This file is not included in the written report submission due to size, but it's required for full reproducibility. The dataset can be downloaded from the Kaggle link provided in the Literature Cited section.</p>
 <p><strong>Appendix E:</strong> Processed features<br />
 The engineered feature dataset (<code>sp500_features.csv</code>) is saved in <code>data/processed/</code>. This contains one row per ticker with all our calculated variables. This intermediate file is useful for anyone who wants to skip the feature engineering step and jump straight to modeling.</p>
-<p><em>Dataset URL:</em> https://www.kaggle.com/datasets/camnugent/sandp500</p>
+<p><em>Dataset URL:</em> https://www.kaggle.com/datasets/camnugent/sandp500</p></div>
 </body>
 </html>
